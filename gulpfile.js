@@ -1,8 +1,41 @@
 var gulp        = require('gulp');
 var browserSync = require('browser-sync');
-var sass        = require('gulp-sass');
+var sass        = require('gulp-ruby-sass');
 var prefix      = require('gulp-autoprefixer');
 var cp          = require('child_process');
+var please      = require('gulp-pleeease');
+var rename      = require("gulp-rename");
+
+
+// 'html',
+// 'js',
+// 'sass',
+// 'autoprefixer',
+// 'watch'
+
+
+var pleaseOptions = {
+  autoprefixer: {  //autoprefixer-core
+    browsers: [
+      'ie >= 8',
+      'ie_mob >= 10',
+      'ff >= 3.6',
+      'chrome >= 10',
+      'safari >= 5.1',
+      'opera >= 11',
+      'ios >= 7',
+      'android >= 4.1',
+      'bb >= 10'
+    ]},
+  filters: true,
+  rem: true, //pixrem
+  pseudoElements: true,
+  opacity: true,
+  import: true,
+  minifier: false, //csswring (and source maps)
+  mqpacker: true, //css-mqpacker
+  next: false
+};
 
 var messages = {
     jekyllBuild: '<span style="color: grey">Running:</span> $ jekyll build'
@@ -39,16 +72,26 @@ gulp.task('browser-sync', ['sass', 'jekyll-build'], function() {
  * Compile files from _scss into both _site/css (for live injecting) and site (for future jekyll builds)
  */
 gulp.task('sass', function () {
-    return gulp.src('_scss/main.scss')
-        .pipe(sass({
-            includePaths: ['scss'],
-            onError: browserSync.notify
-        }))
-        .pipe(prefix(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], { cascade: true }))
-        .pipe(gulp.dest('_site/css'))
-        .pipe(browserSync.reload({stream:true}))
-        .pipe(gulp.dest('css'));
+  return gulp.src('./_scss/main.scss')
+    .pipe(sass({style: 'expanded', sourcemapPath: './_scss'}))
+    .on('error', function (err) { browserSync.notify })
+    //.pipe(prefix(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], { cascade: true }))
+    //.pipe(please(pleaseOptions))
+    .pipe(gulp.dest('_site/css'))
+    .pipe(browserSync.reload({stream:true}))
+    .pipe(gulp.dest('css'));
 });
+
+gulp.task('please', function () {
+  gulp.src('_site/css/main.css')
+  .pipe(please(pleaseOptions))
+    .pipe(rename({
+      suffix: '.min',
+      extname: '.css'
+    }))
+    .pipe(gulp.dest('_site/css'))
+    .pipe(browserSync.reload({stream:true}))
+  });
 
 /**
  * Watch scss files for changes & recompile
@@ -56,6 +99,7 @@ gulp.task('sass', function () {
  */
 gulp.task('watch', function () {
     gulp.watch('_scss/*.scss', ['sass']);
+    gulp.watch('_site/css/main.css', ['please']);
     gulp.watch(['index.html', '_layouts/*.html', '_posts/*'], ['jekyll-rebuild']);
 });
 
