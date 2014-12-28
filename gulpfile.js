@@ -1,3 +1,5 @@
+// http://www.sitepoint.com/introduction-gulp-js/
+
 var gulp = require('gulp'),
     //JS
     jshint = require('gulp-jshint'),
@@ -21,7 +23,7 @@ var gulp = require('gulp'),
     svg2png = require('gulp-svg2png'),
     //Pagespeed insights
     psi = require('psi'),
-    site = 'http://integritystl.com',
+    site = 'http://solvm.com',
     key = '',
     // BrowserSync
     browserSync = require('browser-sync');
