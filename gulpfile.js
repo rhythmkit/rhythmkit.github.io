@@ -17,6 +17,8 @@ var gulp = require('gulp'),
     //Image optimization
     imagemin = require('gulp-imagemin'),
     pngquant = require('imagemin-pngquant'),
+    //SVG to PNG
+    svg2png = require('gulp-svg2png'),
     //Pagespeed insights
     psi = require('psi'),
     site = 'http://integritystl.com',
@@ -33,8 +35,8 @@ var gulp = require('gulp'),
 
 
 gulp.task('scripts', function() {
-  var jsSrc = './src/js/**/*.js',
-      jsBld = './build/js';
+  var jsSrc = './js/src/**/*.js',
+      jsBld = './js';
   return gulp.src(jsSrc)
   .pipe(jshint('.jshintrc'))
   .pipe(jshint.reporter('default'))
@@ -49,8 +51,8 @@ gulp.task('scripts', function() {
 
 // minify new images
 gulp.task('imagemin', function() {
-  var imgSrc = './src/img/**/*',
-      imgBld = './build/img';
+  var imgSrc = './img/**/*',
+      imgBld = './img';
 
   return gulp.src(imgSrc)
   .pipe(changed(imgBld))
@@ -68,6 +70,15 @@ gulp.task('imagemin', function() {
   .pipe(gulp.dest(imgBld));
 });
 
+
+// SVG to PNG
+gulp.task('svng', function () {
+  var svgSrc = './img/**/*.svg',
+      pngBld = './img';
+  return  gulp.src(svgSrc)
+  .pipe(svg2png())
+  .pipe(gulp.dest(pngBld));
+});
 
 // Build the Jekyll Site
 gulp.task('jekyll-build', function (done) {
@@ -99,25 +110,26 @@ gulp.task('browser-sync', ['sass', 'jekyll-build'], function() {
 // Compile files from _scss into both _site/css (for live injecting) and site (for future jekyll builds)
 gulp.task('sass', function () {
   var scssSrc = './_scss/main.scss',
-      sccBld = './_site/css';
+      srcBld1 = './_site/css',
+      srcBld2 = './css',
+      srcmap = './_scss';
 
   return gulp.src(scssSrc)
-    .pipe(sass({style: 'expanded', sourcemapPath: './_scss'}))
+    .pipe(sass({style: 'expanded', sourcemapPath: srcmap}))
     .on('error', function (err) { browserSync.notify })
-    //.pipe(prefix(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], { cascade: true }))
-    //.pipe(please(pleaseOptions))
-    .pipe(gulp.dest(sccBld))
+    .pipe(gulp.dest(srcBld1))
     .pipe(browserSync.reload({stream:true}))
-    .pipe(gulp.dest('css'));
+    .pipe(gulp.dest(srcBld2));
 });
 
 
 // CSS post-processing
 gulp.task('please', function () {
-  var cssSrc = './_site/css/main.css',
-      cssBld = './_site/css',
+  var cssSrc = './css/main.css',
+      cssBld1 = './_site/css',
+      cssBld2 = './css',
       pleaseOptions = {
-        autoprefixer: {  //autoprefixer-core
+        autoprefixer: {
           browsers: [
             'ie >= 8',
             'ie_mob >= 10',
@@ -130,12 +142,12 @@ gulp.task('please', function () {
             'bb >= 10'
           ]},
           filters: true,
-          rem: true, //px fallback for REMs in IE8
+          rem: true,            //px fallback for REMs in IE8
           pseudoElements: true, // reverts :: to : for IE8
-          opacity: true, //Opacity fix for IE8
+          opacity: true,        //Opacity fix for IE8
           import: true,
-          minifier: false, //csswring (and source maps)
-          mqpacker: true, //css-mqpacker
+          minifier: false,      //csswring (and source maps)
+          mqpacker: true,       //css-mqpacker
           next: false
       };
 
@@ -145,8 +157,9 @@ gulp.task('please', function () {
       suffix: '.min',
       extname: '.css'
     }))
-    .pipe(gulp.dest(cssBld))
+    .pipe(gulp.dest(cssBld1))
     .pipe(browserSync.reload({stream:true}))
+    .pipe(gulp.dest(cssBld2))
 });
 
 
