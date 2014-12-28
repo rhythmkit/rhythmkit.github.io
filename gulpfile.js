@@ -1,4 +1,12 @@
-// http://www.sitepoint.com/introduction-gulp-js/
+// What to learn GULP?
+// Just read these articles:
+    // https://github.com/shakyShane/jekyll-gulp-sass-browser-sync
+    // http://markgoodyear.com/2014/01/getting-started-with-gulp/
+    // http://www.sitepoint.com/introduction-gulp-js/
+    // https://github.com/google/web-starter-kit/blob/master/gulpfile.js
+    // http://www.smashingmagazine.com/2014/06/11/building-with-gulp/
+    // http://alistapart.com/blog/post/getting-started-with-gulp
+    // http://www.browsersync.io/docs/gulp/
 
 var gulp = require('gulp'),
     //JS
@@ -7,6 +15,7 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     //Pre-procesor
     sass = require('gulp-ruby-sass'),
+    frontMatter = require('gulp-front-matter'),
     //Helpers
     changed = require('gulp-changed'),
     cp = require('child_process'),
@@ -36,13 +45,21 @@ var gulp = require('gulp'),
     // 'watch'
 
 
+gulp.task('front', function() {
+  gulp.src('./css/style.scss')
+  .pipe(frontMatter({ // optional configuration
+    remove: true // should we remove front-matter header?
+  }))
+  .pipe(gulp.dest('./css')) // you may want to take a look at gulp-marked at this point
+});
+
 gulp.task('scripts', function() {
   var jsSrc = './js/src/**/*.js',
       jsBld = './js';
   return gulp.src(jsSrc)
   .pipe(jshint('.jshintrc'))
   .pipe(jshint.reporter('default'))
-  .pipe(concat('main.js'))
+  .pipe(concat('style.js'))
   .pipe(gulp.dest(jsBld))
   .pipe(rename({suffix: '.min'}))
   .pipe(uglify())
@@ -109,27 +126,25 @@ gulp.task('browser-sync', ['sass', 'jekyll-build'], function() {
 });
 
 
-// Compile files from _scss into both _site/css (for live injecting) and site (for future jekyll builds)
+// Compile files from _scss into both _site/css (for live injecting) and CSS (for future jekyll builds)
 gulp.task('sass', function () {
-  var scssSrc = './_scss/main.scss',
-      srcBld1 = './_site/css',
-      srcBld2 = './css',
-      srcmap = './_scss';
+  var scssSrc = './css/style.scss',
+      srcBld = './_site/css';
 
   return gulp.src(scssSrc)
-    .pipe(sass({style: 'expanded', sourcemapPath: srcmap}))
+    .pipe(frontMatter({ remove: true })) // Remove frontmatter header to run Gulp-Ruby-Sass
+    .pipe(sass({loadPath: '_scss', style: 'expanded', sourcemapPath: srcBld}))
     .on('error', function (err) { browserSync.notify })
-    .pipe(gulp.dest(srcBld1))
-    .pipe(browserSync.reload({stream:true}))
-    .pipe(gulp.dest(srcBld2));
+    .pipe(rename({ extname: '.css' })) //
+    .pipe(gulp.dest(srcBld))
+    .pipe(browserSync.reload({stream:true}));
 });
 
 
 // CSS post-processing
 gulp.task('please', function () {
-  var cssSrc = './css/main.css',
+  var cssSrc = './_site/css/style.css',
       cssBld1 = './_site/css',
-      cssBld2 = './css',
       pleaseOptions = {
         autoprefixer: {
           browsers: [
@@ -148,20 +163,16 @@ gulp.task('please', function () {
           pseudoElements: true, // reverts :: to : for IE8
           opacity: true,        //Opacity fix for IE8
           import: true,
-          minifier: false,      //csswring (and source maps)
+          minifier: true,       //csswring (and source maps)
           mqpacker: true,       //css-mqpacker
           next: false
       };
 
   return gulp.src(cssSrc)
   .pipe(please(pleaseOptions))
-    .pipe(rename({
-      suffix: '.min',
-      extname: '.css'
-    }))
+    // .pipe(rename({ suffix: '.min', extname: '.css'  })) // create a style.min.css
     .pipe(gulp.dest(cssBld1))
     .pipe(browserSync.reload({stream:true}))
-    .pipe(gulp.dest(cssBld2))
 });
 
 
@@ -194,9 +205,23 @@ gulp.task('desktop', function (cb) {
 //Watch scss files for changes & recompile
 //Watch html/md files, run jekyll & reload BrowserSync
 gulp.task('watch', function () {
-  gulp.watch('_scss/*.scss', ['sass']);
-  gulp.watch('_site/css/main.css', ['please']);
-  gulp.watch(['index.html', '_layouts/*.html', '_posts/*'], ['jekyll-rebuild']);
+  gulp.watch([
+    'css/style.scss',
+    '_scss/**/*.scss'
+    ],
+    ['sass']);
+
+  gulp.watch('_site/css/style.css', ['please']);
+
+  gulp.watch([
+    '_config.yml',
+    'index.html',
+    '_includes/**/*.html',
+    '_layouts/*.html',
+    '_posts/*.md',
+    '_data/*.yml'
+    ],
+    ['jekyll-rebuild']);
 });
 
 

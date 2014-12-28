@@ -1,0 +1,132 @@
+// Typeface(s) and Fonts
+$sans: 'source sans pro', sans-serif;
+$cursive: "learning-curve";
+$monospace: 'source code pro', monospace; // for code highlighting
+//$serif: "Source Serif Pro";
+//$slab: "Museo Slab";
+//$condensed: ;
+//$thick: "Quatro";
+
+// Weight(s) - Related to Source Sans Pro (Typekit)
+$hairline:200;
+$light: 300;
+$normal: normal;
+$bold: 700;
+$heavy:900;
+
+// Base typography vars
+$line-height : 1.5;
+$base-font-size: 18px;
+$base-line-height: round($base-font-size * $line-height);
+//$base-line-position: $base-font-size;
+$base-line-color : pink;
+$max-width: 800px;
+
+// Snap to baseline mixin
+@mixin snap-to-baseline($aspect-ratio){
+  $width-per-base-line: $base-line-height * $aspect-ratio;
+  @for $i from 1 to round($max-width / $width-per-base-line) {
+    &[min-width~="#{round($width-per-base-line * $i )}"] {
+      height: round($base-line-height * $i );
+    }
+  }
+}
+
+// Smart spacing mixin
+$inside : padding;
+$outside : margin;
+$text : margin;
+
+@mixin polar-spacing($space-type, $top:1, $bottom:1) {
+  #{$space-type}-top: $base-line-height * $top;
+  #{$space-type}-bottom: $base-line-height * $bottom;
+}
+
+body {
+  font-size:$base-font-size;
+  line-height: $line-height;
+  background-color:#fff;
+  background-image: linear-gradient(transparent, transparent $base-line-height - 1px, $base-line-color 1px);
+  background-size : auto $base-line-height;
+  padding : 0 $base-line-height;
+}
+
+article {
+  display:block;
+  max-width:$max-width;
+  margin:0 auto;
+}
+
+h1{
+  background-color: #ff0;
+  font-family: 'trebuchet ms', sans-serif;
+  font-weight: 300;
+  font-size: 4rem;
+  text-transform:uppercase;
+  line-height:2 * $base-line-height;
+
+  @include polar-spacing($text,2,1);
+}
+
+p {
+  @include polar-spacing($outside, 0, 1);
+}
+
+h2 {
+  background-color: #ff0;
+  font-family: 'trebuchet ms', sans-serif;
+  font-weight: 300;
+  font-size: 1.8rem;
+  text-transform:uppercase;
+  line-height: 2 * $base-line-height;
+
+  @include polar-spacing(margin,2,1);
+}
+
+
+h3 {
+  background-color: #ff0;
+  font-family: 'trebuchet ms', sans-serif;
+  font-weight: 300;
+  font-size: 2rem;
+  text-transform:uppercase;
+  line-height: 2 * $base-line-height;
+
+  //@include polar-spacing(margin,1,1);
+}
+
+.snap.one {
+  overflow:hidden;
+  //float:left;
+  margin: 0 $base-line-height $base-line-height 0;
+  @include snap-to-baseline(16/9);
+  width:100%;
+}
+
+
+.snap.two {
+  overflow:hidden;
+  float:left;
+  // margin: 0 $base-line-height $base-line-height 0;
+  @include snap-to-baseline(9/9);
+  width:50%;
+
+}
+
+article[max-width~="600px"] {
+  .snap.one {
+    float:left;
+    width:60%;
+  }
+
+  .snap.two {
+    //float:left;
+    width:100%;
+  }
+}
+
+// Just to illustrate :)
+article,
+.snap {
+  transition: all .5s ease-in-out;
+}
