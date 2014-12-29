@@ -1,0 +1,147 @@
+---
+layout: default
+bodyclass: about
+---
+
+{% include imgBanner.html %}
+
+{% include mainContent.html %}
+
+
+<div class="chartBox">
+    <h2 class="chartBox__heading">Snapshot of SLAW since 1995</h2>
+    <div class="chartBox__stat">
+        <span>1995</span>
+        <br>Established
+    </div>
+    <div class="chartBox__stat">
+        <span>{{ page.apprenticesCount }}</span>
+        <br>Apprentices
+    </div>
+    <div class="chartBox__stat">
+        <span>$ {{ page.apprenticesPay }}</span>
+        <br>Paid to Apprentices
+    </div>
+    <div class="chartBox__stat">
+        <span>{{ page.apprenticesZip }}</span>
+        <br>ZIP codes
+    </div>
+</div>
+
+<div class="chartBox">
+    <h2 class="chartBox__heading">{{ page.apprenticesSchools }} High schools represented</h2>
+    <p>Our apprentices come from St. Louis schools and beyond. We also have many apprentices that have already graduated high school.</p>
+    <div class="chart" data-percent="46">
+        <span class="chart__percent">46</span>
+        <br>STL City
+    </div>
+    <div class="chart" data-percent="28">
+        <span class="chart__percent">28</span>
+        <br>STL County
+    </div>
+    <div class="chart" data-percent="12">
+        <span class="chart__percent">12</span>
+        <br>Graduated
+    </div>
+    <div class="chart" data-percent="6">
+        <span class="chart__percent">6</span>
+        <br>Private
+    </div>
+    <div class="chart" data-percent="7">
+        <span class="chart__percent">7</span>
+        <br>Charter
+    </div>
+    <div class="chart" data-percent="1">
+        <span class="chart__percent">1</span>
+        <br>Illinois
+    </div>
+</div>
+
+<div class="chartBox">
+    <h2 class="chartBox__heading">Ethnicity</h2>
+    <p>We seek to create opportunities for teens in the city of STL. We also make room to diversify the work place.</p>
+    <div class="chart" data-percent="90">
+        <span class="chart__percent">90</span>
+        <br>Black
+    </div>
+    <div class="chart" data-percent="5">
+        <span class="chart__percent">5</span>
+        <br>White
+    </div>
+    <div class="chart" data-percent="4">
+        <span class="chart__percent">4</span>
+        <br>Multi-ethnic
+    </div>
+    <div class="chart" data-percent="1">
+        <span class="chart__percent">1</span>
+        <br>Asian
+    </div>
+</div>
+
+<div class="chartBox">
+    <h2 class="chartBox__heading">Gender</h2>
+    <p>Our program has always been nearly a 50/50 ratio of males to females.</p>
+    <div class="chart" data-percent="53">
+        <span class="chart__percent">53</span>
+        <br>Female
+    </div>
+    <div class="chart" data-percent="47">
+        <span class="chart__percent">47</span>
+        <br>Male
+    </div>
+</div>
+
+<div class="chartBox">
+    <h2 class="chartBox__heading">Diversity</h2>
+    <p>We acknowledge that there are many diverse young creatives in STL. We provide apprenticeships for all ethnicities, genders and sexual orientations.</p>
+</div>
+
+
+<div class="megaStatement">
+    <h2 class="megaStatement__heading">We also have an amazing team</h2>
+    <p>{% include svg-icons/diamond.html %}</p>
+</div>
+
+
+<div class="homepage__programs">
+
+    <div class="grid">
+        <figure class="effect-oscar">
+            <img src="/images/{{ page.apprenticepx }}" alt=""/>
+            <figcaption>
+                <h2>Apprentices</h2>
+                <p>Meet our creatives</p>
+                <a href="/apprentices"></a>
+            </figcaption>
+        </figure>
+
+        <figure class="effect-oscar">
+            <img src="/images/{{ page.staffpx }}" alt=""/>
+            <figcaption>
+                <h2>STAFF</h2>
+                <p>Meet our team</p>
+                <a href="/staff"></a>
+            </figcaption>
+        </figure>
+
+        <figure class="effect-oscar">
+            <img src="/images/{{ page.instructorpx }}" alt=""/>
+            <figcaption>
+                <h2>Instructors</h2>
+                <p>Meet our PROs</p>
+                <a href="instructors"></a>
+            </figcaption>
+        </figure>
+
+        <figure class="effect-oscar">
+            <img src="/images/{{ page.boardpx }}" alt=""/>
+            <figcaption>
+                <h2>BOARD</h2>
+                <p>Meet our visonaries</p>
+                <a href="/board"></a>
+            </figcaption>
+        </figure>
+    </div>
+</div>
+
+{% include flip-gallery.html %}

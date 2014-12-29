@@ -1,0 +1,39 @@
+<nav class="laxnav">
+    <div class="laxnav__bar">
+      <a class="brandmark" href="/" target="_blank">
+          <span>S</span>
+          <span>T</span>
+          <span>L</span>
+          <span>O</span>
+          <span>U</span>
+          <span>I</span>
+          <span>S</span>
+          <span class="a">A</span>
+          <span class="r">R</span>
+          <span class="t">T</span>
+          <span>W</span>
+          <span>O</span>
+          <span>R</span>
+          <span>K</span>
+          <span>S</span>
+          <span class="tagline">/ {{site.tagline}}</span>
+        </a>
+
+      <span class="menu icon" title="Menu (Esc)" tabindex="0" data-icon="m">
+          <span>Menu</span>
+      </span>
+    </div>
+
+    <div id="laxnav__menu" class="laxnav__menu">
+      <ul>
+        {% for nav in site.data.nav %}
+        <li class="laxnav__menu-list-item">
+            <a href="/{{nav.url}}" class="laxnav__menu-list-anchor" title="{{nav.nav-item}}">
+                <span class="laxnav__link-text">{{nav.nav-item}}</span>
+                <span class="laxnav__link-teaser">{{nav.teaser}}</span>
+            </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+</nav>

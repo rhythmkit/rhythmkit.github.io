@@ -1,44 +1,32 @@
 <!DOCTYPE html>
+<!--
+  ______   _______  ________  __       __   ______   _______   __    __   ______
+ /      \ |       \|        \|  \  _  |  \ /      \ |       \ |  \  /  \ /      \
+|  $$$$$$\| $$$$$$$\\$$$$$$$$| $$ / \ | $$|  $$$$$$\| $$$$$$$\| $$ /  $$|  $$$$$$\
+| $$__| $$| $$__| $$  | $$   | $$/  $\| $$| $$  | $$| $$__| $$| $$/  $$ | $$___\$$
+| $$    $$| $$    $$  | $$   | $$  $$$\ $$| $$  | $$| $$    $$| $$  $$   \$$    \
+| $$$$$$$$| $$$$$$$\  | $$   | $$ $$\$$\$$| $$  | $$| $$$$$$$\| $$$$$\   _\$$$$$$\
+| $$  | $$| $$  | $$  | $$   | $$$$  \$$$$| $$__/ $$| $$  | $$| $$ \$$\ |  \__| $$
+| $$  | $$| $$  | $$  | $$   | $$$    \$$$ \$$    $$| $$  | $$| $$  \$$\ \$$    $$
+ \$$   \$$ \$$   \$$   \$$    \$$      \$$  \$$$$$$  \$$   \$$ \$$   \$$  \$$$$$$
+ -->
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>{{ page.title }}</title>
-        <meta name="viewport" content="width=device-width">
 
-        <!-- Custom CSS -->
-        <link rel="stylesheet" href="/css/style.css">
+    {% include header.html %}
 
-    </head>
-    <body>
+  <body class="{{page.bodyclass}}">
 
-        <div class="site">
-          <div class="header">
-            <h1 class="title"><a href="/">{{ site.name }}</a></h1>
-            <a class="extra" href="/">home</a>
-          </div>
+    {% include analytics.html %}
 
-          {{ content }}
+    {% include nav/nav-laxbar.html %}
 
-          <div class="footer">
-            <div class="contact">
-              <p>
-                Lewis<br />
-                WebDevs<br />
-                you@example.com
-              </p>
-            </div>
-            <div class="contact">
-              <p>
-                <a href="https://github.com/yourusername">github.com/yourusername</a><br />
-                <a href="https://twitter.com/yourusername">twitter.com/yourusername</a><br />
-              </p>
-            </div>
-          </div>
-        </div>
+    <div class="container  content-transition">
 
-    </body>
+        {{ content }}
 
-    <script src="//s3-us-west-2.amazonaws.com/s.cdpn.io/68939/ResizeSensor.js"></script>
-    <script src="//s3-us-west-2.amazonaws.com/s.cdpn.io/68939/ElementQueries.js"></script>
+    </div>
+
+    {% include footer.html %}
+
+  </body>
 </html>

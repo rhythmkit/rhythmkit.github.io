@@ -1,0 +1,20 @@
+/* TEAM */
+
+    Your title: STLOUISARTWORKS
+    Site: stlartworks.com
+    Email: were@stlartworks.com
+    Twitter: stlartworks
+    Location: St. Louis, MO
+
+
+/* THANKS */
+
+    Name: Jacob Volkmer
+
+
+/* SITE */
+
+    Last update: YYYY/MM/DD
+    Standards: HTML5, CSS3, OpenSource
+    Components: Modernizr, jQuery, etc.
+    Software: Software used for the development
