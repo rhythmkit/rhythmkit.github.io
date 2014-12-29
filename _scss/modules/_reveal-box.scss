@@ -58,7 +58,7 @@ main {
 
   &__heading {
     color: #1a2f2a;
-    font-family: $sans-condensed-bold;
+    font-family: $sans;
     font-weight: bold;
     text-transform: uppercase;
     margin-bottom: 1em;
@@ -115,14 +115,14 @@ main {
       transform: translateX(-50%) translateY(-50%);
       color: #FFF;
       font-size: 2em;
-      font-family: $sans-condensed-light;
+      font-family: $sans;
     }
   }
 
   &__box-info {
     background: $stlouisblues;
     text-align: center;
-    font-family: $sans-condensed-light;
+    font-family: $sans;
     font-weight: bold;
     padding: .25em 0;
     color: $white;
@@ -208,7 +208,7 @@ main {
 
     &-title {
         color: $white;
-        font-family: $sans-condensed-light;
+        font-family: $sans;
         font-size: 3em;
         line-height: 1;
         margin: 0;
@@ -228,7 +228,7 @@ main {
     }
 
     &-subtitle {
-        font-family: $sans-condensed-light;
+        font-family: $sans;
         font-size: 2em;
         padding: 0;
         text-align: center;
@@ -240,7 +240,7 @@ main {
         padding-bottom: 3em;
 
         h3 {
-            font-family: $sans-condensed-light;
+            font-family: $sans;
             font-size: 2em;
             //font-weight: bold;
             line-height: 1;

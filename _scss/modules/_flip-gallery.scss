@@ -61,12 +61,12 @@
   	  transform: rotateY(-180deg);
 
       &__heading{
-          font-family: $sans-condensed-bold;
+          font-family: $sans;
           line-height: 1;
       }
 
       &__text {
-          font-family: $sans-condensed-light;
+          font-family: $sans;
       }
     }
 

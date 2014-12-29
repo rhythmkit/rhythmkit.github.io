@@ -12,7 +12,7 @@
 
     &__stat {
         display: inline-block;
-        font-family: $sans-condensed-light;
+        font-family: $sans;
         font-size: 2em;
         padding: 0 3rem;
 
@@ -40,7 +40,7 @@
 }
 
 .chart__percent {
-    font-family: $sans-condensed-light;
+    font-family: $sans;
     display: inline-block;
     font-size: 2em;
 

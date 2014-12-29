@@ -8,7 +8,7 @@
     }
 
     &__heading {
-        font-family: $sans-condensed-light;
+        font-family: $sans;
         font-size: 3em;
         line-height: 1;
         margin: 0;
@@ -28,7 +28,7 @@
     }
 
     &__subHeading {
-        font-family: $sans-condensed-light;
+        font-family: $sans;
         font-size: 2em;
         //font-weight: bold;
         line-height: 1;
@@ -39,7 +39,7 @@
 
     &__date {
         color: $graphite;
-        font-family: $sans-condensed-light;
+        font-family: $sans;
         font-size: 2em;
         text-align: center;
     }
@@ -48,7 +48,7 @@
         color: $charcoal;
 
         h1, h2, h3, h4, h5, h6 {
-            font-family: $sans-condensed-bold;
+            font-family: $sans;
             font-size: 2em;
             //font-weight: bold;
             line-height: 1;

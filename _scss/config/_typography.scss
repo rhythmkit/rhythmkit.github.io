@@ -1,16 +1,16 @@
 // Typeface(s) and Fonts
 $sans: 'source sans pro', sans-serif;
-$cursive: "learning-curve";
-$monospace: 'source code pro', monospace; // for code highlighting
-//$serif: "Source Serif Pro";
+$monospace: 'source code pro', monospace;
+$serif: 'source serif pro';
 //$slab: "Museo Slab";
 //$condensed: ;
 //$thick: "Quatro";
+//$serif: "learning-curve";
 
 // Weight(s) - Related to Source Sans Pro (Typekit)
 $hairline:200;
 $light: 300;
-$normal: normal;
+$normal: 400;
 $bold: 700;
 $heavy:900;
 
@@ -19,7 +19,7 @@ $line-height : 1.5;
 $base-font-size: 18px;
 $base-line-height: round($base-font-size * $line-height);
 //$base-line-position: $base-font-size;
-$base-line-color : pink;
+$base-line-color : magenta;
 $max-width: 800px;
 
 // Snap to baseline mixin
@@ -42,8 +42,12 @@ $text : margin;
   #{$space-type}-bottom: $base-line-height * $bottom;
 }
 
+html {
+  font-size: $base-font-size; // Enable REM usage
+}
+
 body {
-  font-size:$base-font-size;
+  font-family: $sans;
   line-height: $line-height;
   background-color:#fff;
   background-image: linear-gradient(transparent, transparent $base-line-height - 1px, $base-line-color 1px);
@@ -59,7 +63,6 @@ article {
 
 h1{
   background-color: #ff0;
-  font-family: 'trebuchet ms', sans-serif;
   font-weight: 300;
   font-size: 4rem;
   text-transform:uppercase;
@@ -74,7 +77,6 @@ p {
 
 h2 {
   background-color: #ff0;
-  font-family: 'trebuchet ms', sans-serif;
   font-weight: 300;
   font-size: 1.8rem;
   text-transform:uppercase;
@@ -83,10 +85,8 @@ h2 {
   @include polar-spacing(margin,2,1);
 }
 
-
 h3 {
   background-color: #ff0;
-  font-family: 'trebuchet ms', sans-serif;
   font-weight: 300;
   font-size: 2rem;
   text-transform:uppercase;
@@ -103,14 +103,12 @@ h3 {
   width:100%;
 }
 
-
 .snap.two {
   overflow:hidden;
   float:left;
   // margin: 0 $base-line-height $base-line-height 0;
   @include snap-to-baseline(9/9);
   width:50%;
-
 }
 
 article[max-width~="600px"] {
