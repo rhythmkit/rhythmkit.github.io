@@ -1,0 +1,50 @@
+// CHARACTERS PER LINE
+
+$cpl-background: $magenta;
+$cpl-border-radius: 10%;
+
+.cpl {
+  background-color: rgba($cpl-background, .5);
+
+  &__tooltip {
+    border-radius: $cpl-border-radius;
+    color: inherit;
+    cursor: pointer;
+    position:relative;
+    background: $cpl-background;
+    padding: 0 .2rem;
+
+
+    &::after {
+      content: attr(data-tooltip);
+      display: block;
+      padding: 0 0.5rem;
+      color: inherit;
+      background: $cpl-background;
+      border-radius: $cpl-border-radius;
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      right: 0;
+      white-space: nowrap;
+      transition: all .2s ease-in-out;
+      //box-shadow: 1px 0 1px rgba(100,100,100, .5);
+    }
+
+    &:hover::after {
+      //display: block;
+      opacity: 1;
+      top: -1.3rem;
+    }
+  }
+
+
+  &__highlight {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background: pink;
+    padding: 1rem;
+
+  }
+}

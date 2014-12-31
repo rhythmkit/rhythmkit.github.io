@@ -3,7 +3,7 @@ $sans: 'source sans pro', sans-serif;
 $monospace: 'source code pro', monospace;
 $serif: 'source serif pro';
 //$slab: "Museo Slab";
-//$condensed: ;
+$condensed:'Open Sans Condensed', sans-serif;
 //$thick: "Quatro";
 //$serif: "learning-curve";
 
@@ -16,7 +16,7 @@ $heavy:900;
 
 // Base typography vars
 $line-height : 1.5;
-$base-font-size: 18px;
+$base-font-size: 20px;
 $base-line-height: round($base-font-size * $line-height);
 //$base-line-position: $base-font-size;
 $base-line-color : magenta;
@@ -37,9 +37,10 @@ $inside : padding;
 $outside : margin;
 $text : margin;
 
-@mixin polar-spacing($space-type, $top:1, $bottom:1) {
+@mixin spacing($space-type, $top:1, $bottom:1, $line-height-multiplier: 1) {
   #{$space-type}-top: $base-line-height * $top;
   #{$space-type}-bottom: $base-line-height * $bottom;
+  line-height: $line-height-multiplier * $base-line-height;
 }
 
 html {
@@ -52,48 +53,72 @@ body {
   background-color:#fff;
   background-image: linear-gradient(transparent, transparent $base-line-height - 1px, $base-line-color 1px);
   background-size : auto $base-line-height;
-  padding : 0 $base-line-height;
 }
 
-article {
-  display:block;
-  max-width:$max-width;
-  margin:0 auto;
+h1, h2, h3, h4, h5, h6 {
+  background-color: $mint;
+  font-weight: $normal;
+  font-size: 1rem;
+  line-height: 2 * $base-line-height;
 }
 
-h1{
-  background-color: #ff0;
-  font-weight: 300;
-  font-size: 4rem;
-  text-transform:uppercase;
-  line-height:2 * $base-line-height;
+.mega-word {
+  overflow: hidden;
+  position: relative;
 
-  @include polar-spacing($text,2,1);
+  &__text {
+    color: $white;
+    background-color: $charcoal;
+    font-family: $condensed;
+    font-size: 10rem;
+    font-weight: $heavy;
+    @include spacing($text, 0, 1, 8);
+    text-transform: uppercase;
+    transition: all .5s ease-in-out;
+
+    &[max-width~="960px"] {
+      font-size: 20vw;
+    }
+  }
+
+  &::before {
+    content: "";
+    background-color: $white;
+    bottom: -1%;
+    height: 40%;
+    position: absolute;
+    width: 120%;
+    z-index: 10;
+
+    //transform-origin: 0 100%;
+    transform: rotate(-3deg);
+    //background: linear-gradient(90deg, #965ddc 0%, #b087e5 100%);
+  }
 }
 
 p {
-  @include polar-spacing($outside, 0, 1);
+  @include spacing($outside, 0, 1);
 }
 
-h2 {
-  background-color: #ff0;
-  font-weight: 300;
-  font-size: 1.8rem;
-  text-transform:uppercase;
-  line-height: 2 * $base-line-height;
 
-  @include polar-spacing(margin,2,1);
-}
 
+/*
 h3 {
   background-color: #ff0;
   font-weight: 300;
   font-size: 2rem;
   text-transform:uppercase;
-  line-height: 2 * $base-line-height;
-
-  //@include polar-spacing(margin,1,1);
+  line-height: 2 * \$base-line-height;
 }
+*/
+
+.copy {
+  display:block;
+  max-width:$max-width;
+  margin:0 auto;
+}
+
+
 
 .snap.one {
   overflow:hidden;
@@ -111,7 +136,7 @@ h3 {
   width:50%;
 }
 
-article[max-width~="600px"] {
+.copy[max-width~="600px"] {
   .snap.one {
     float:left;
     width:60%;
@@ -124,7 +149,7 @@ article[max-width~="600px"] {
 }
 
 // Just to illustrate :)
-article,
+.copy,
 .snap {
   transition: all .5s ease-in-out;
 }
