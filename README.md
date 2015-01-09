@@ -170,7 +170,9 @@ I'm not a math guy.
 
 ### Cantuse
 
-Don't use `<hr>` use `box-shadow`. Horizontal rules add at least a pixel of height to the page, thus throwing off the vertical rhythm. However, you can use it if you balance it's top and bottom margin. 
+1. Don't use `<hr>` use `box-shadow`. Horizontal rules add at least a pixel of height to the page, thus throwing off the vertical rhythm. However, you can use it if you balance it's top and bottom margin.
+
+2. I have to use the system monospaced font. I can't seem to change it.
 
 
 
@@ -179,6 +181,9 @@ Don't use `<hr>` use `box-shadow`. Horizontal rules add at least a pixel of heig
 1. Lamb
 2. Hobit
 3. JS images
+
+
+
 
 
 

@@ -66,7 +66,7 @@ a.brandmark {
 
 .tagline {
     color: $graphite;
-    font-family: $sans;
+    font-family: font($sans, face);
     letter-spacing: 4px;
     text-transform: uppercase;
 }
@@ -181,7 +181,7 @@ a.brandmark {
         color: $stlouisblues;
         display: block;
         font-size: 1.75em;
-        font-family: $sans;
+        font-family: font($sans, face);
         padding: 0.1em 0.5em;
         text-transform: uppercase;
 
@@ -198,7 +198,7 @@ a.brandmark {
 
     &__link-teaser {
         color: $charcoal;
-        font-family: $sans;
+        font-family: font($sans, face);
         font-size: 1em;
     }
 }
@@ -220,7 +220,7 @@ a.brandmark {
     span {
         //display: none;
         color: $stlouisblues;
-        font-family: $sans;
+        font-family: font($sans, face);
         font-size: 2rem;
         letter-spacing: 4px;
         text-transform: uppercase;

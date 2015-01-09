@@ -22,6 +22,7 @@ var gulp = require('gulp'),
     del = require('del'),
     notify = require('gulp-notify'),
     rename = require("gulp-rename"),
+    plumber = require("gulp-plumber"),
     //Post-processor
     prefix = require('gulp-autoprefixer'),
     please = require('gulp-pleeease'),
@@ -47,56 +48,49 @@ var gulp = require('gulp'),
 
 gulp.task('front', function() {
   gulp.src('./css/style.scss')
-  .pipe(frontMatter({ // optional configuration
-    remove: true // should we remove front-matter header?
+  .pipe(frontMatter({
+    remove: true
   }))
-  .pipe(gulp.dest('./css')) // you may want to take a look at gulp-marked at this point
+  .pipe(gulp.dest('./css'))
 });
 
 gulp.task('scripts', function() {
-  var jsSrc = './js/src/**/*.js',
-      jsBld = './js';
-  return gulp.src(jsSrc)
-  .pipe(jshint('.jshintrc'))
-  .pipe(jshint.reporter('default'))
-  .pipe(concat('style.js'))
-  .pipe(gulp.dest(jsBld))
-  .pipe(rename({suffix: '.min'}))
-  .pipe(uglify())
-  .pipe(gulp.dest(jsBld))
-  .pipe(notify({ message: 'Scripts task complete' }));
+  return gulp.src('./js/src/**/*.js')
+    .pipe(jshint('.jshintrc'))
+    .pipe(jshint.reporter('default'))
+    .pipe(concat('style.js'))
+    .pipe(gulp.dest('./js'))
+    .pipe(rename({suffix: '.min'}))
+    .pipe(uglify())
+    .pipe(gulp.dest('./js'))
+    .pipe(notify({ message: 'Scripts task complete' }));
 });
 
 
 // minify new images
 gulp.task('imagemin', function() {
-  var imgSrc = './img/**/*',
-      imgBld = './img';
-
-  return gulp.src(imgSrc)
-  .pipe(changed(imgBld))
-  //.pipe(imagemin())
-  .pipe(imagemin({
-    //optimizationLevel: 3, //PNG optimization
-    progressive: true,    //JPG optimization
-    interlaced: true,     //GIF optimizaiton
-    svgoPlugins: [        //SVG optimization
-      { removeViewBox: false }, // don't remove the viewbox atribute from the SVG
-      { removeUselessStrokeAndFill: false },  // don't remove Useless Strokes and Fills
-      { removeEmptyAttrs: false } ],
-    use: [pngquant({quality: '65-80', speed: 4 })]
-  }))
-  .pipe(gulp.dest(imgBld));
+  return gulp.src('./img/**/*')
+    .pipe(changed('./img'))
+    //.pipe(imagemin())
+    .pipe(imagemin({
+      //optimizationLevel: 3, //PNG optimization
+      progressive: true,      //JPG optimization
+      interlaced: true,       //GIF optimizaiton
+      svgoPlugins: [          //SVG optimization
+        { removeViewBox: false },
+        { removeUselessStrokeAndFill: false },
+        { removeEmptyAttrs: false } ],
+      use: [pngquant({quality: '65-80', speed: 4 })]
+    }))
+    .pipe(gulp.dest('./img'));
 });
 
 
 // SVG to PNG
 gulp.task('svng', function () {
-  var svgSrc = './img/**/*.svg',
-      pngBld = './img';
-  return  gulp.src(svgSrc)
-  .pipe(svg2png())
-  .pipe(gulp.dest(pngBld));
+  return gulp.src('./img/**/*.svg')
+    .pipe(svg2png())
+    .pipe(gulp.dest('./img'));
 });
 
 // Build the Jekyll Site
@@ -128,36 +122,25 @@ gulp.task('browser-sync', ['sass', 'jekyll-build'], function() {
 
 // Compile files from _scss into both _site/css (for live injecting) and CSS (for future jekyll builds)
 gulp.task('sass', function () {
-  var scssSrc = './css/style.scss',
-      srcBld = './_site/css';
-
-  return gulp.src(scssSrc)
+  return gulp.src('./css/style.scss')
     .pipe(frontMatter({ remove: true })) // Remove frontmatter header to run Gulp-Ruby-Sass
-    .pipe(sass({loadPath: '_scss', style: 'expanded', sourcemapPath: srcBld}))
-    .on('error', function (err) { browserSync.notify })
-    .pipe(rename({ extname: '.css' })) //
-    .pipe(gulp.dest(srcBld))
-    .pipe(browserSync.reload({stream:true}));
+    .pipe(sass({
+      loadPath: '_scss',
+      style: 'expanded'
+    }))
+    .pipe(plumber())
+    //.on('error', function (err) { browserSync.notify })
+    //.pipe(rename({ extname: '.css' })) //
+    .pipe(gulp.dest('./css'))
+    //.pipe(browserSync.reload({stream:true}));
 });
 
 
 // CSS post-processing
 gulp.task('please', function () {
-  var cssSrc = './_site/css/style.css',
-      cssBld1 = './_site/css',
-      pleaseOptions = {
+  var pleaseOptions = {
         autoprefixer: {
-          browsers: [
-            'ie >= 8',
-            'ie_mob >= 10',
-            'ff >= 3.6',
-            'chrome >= 10',
-            'safari >= 5.1',
-            'opera >= 11',
-            'ios >= 7',
-            'android >= 4.1',
-            'bb >= 10'
-          ]},
+          browsers: ['ie >= 8', 'ie_mob >= 10', 'ff >= 3.6', 'chrome >= 10', 'safari >= 5.1', 'opera >= 11', 'ios >= 7', 'android >= 4.1', 'bb >= 10']},
           filters: true,
           rem: true,            //px fallback for REMs in IE8
           pseudoElements: true, // reverts :: to : for IE8
@@ -168,11 +151,12 @@ gulp.task('please', function () {
           next: false
       };
 
-  return gulp.src(cssSrc)
-  .pipe(please(pleaseOptions))
+  return gulp.src('./css/style.css')
+    .pipe(please(pleaseOptions))
     // .pipe(rename({ suffix: '.min', extname: '.css'  })) // create a style.min.css
-    .pipe(gulp.dest(cssBld1))
+    .pipe(gulp.dest('_site/css'))
     .pipe(browserSync.reload({stream:true}))
+    .pipe(gulp.dest('./css'))
 });
 
 
@@ -211,11 +195,12 @@ gulp.task('watch', function () {
     ],
     ['sass']);
 
-  gulp.watch('_site/css/style.css', ['please']);
+  gulp.watch('css/style.css', ['please']);
 
   gulp.watch([
+    //'css/style.css',
     '_config.yml',
-    'index.html',
+    'index.md',
     '_includes/**/*.html',
     '_layouts/*.html',
     '_posts/*.md',

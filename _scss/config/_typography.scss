@@ -1,33 +1,103 @@
 // Typeface(s) and Fonts
-$sans: 'source sans pro', sans-serif;
-$monospace: 'source code pro', monospace;
-$serif: 'source serif pro';
+
+$source-sans: (
+  face: 'source sans pro',
+  hairline: 200,
+  light: 300,
+  normal: 400,
+  semi: 600,
+  bold: 700,
+  heavy: 900
+);
+
+$sans: (
+  face: 'Roboto',
+  hairline: 100,
+  light: 300,
+  normal: 400,
+  semi: 600,
+  bold: 700,
+  heavy: 900
+);
+
+$serif: (
+  face: 'source serif pro',
+  normal: 400,
+  semi: 600,
+  bold: 700
+);
+
+$mono: (
+  face: 'source code pro',
+  hairline: 200,
+  light: 300,
+  normal: 400,
+  semi: 600,
+  bold: 700,
+  heavy: 900
+);
+
+$open-condensed: (
+  face: 'Open Sans Condensed',
+  light: 300,
+  bold: 700
+);
+
+$condensed: (
+  face: 'Roboto Condensed',
+  light: 300,
+  normal: 300,
+  bold: 700
+);
+
+$slab: (
+  face: 'Roboto Slab',
+  hairline: 100,
+  light: 300,
+  normal: 400,
+  bold: 700
+);
+
+$fat: (
+  face: 'Alfa Slab One',
+  heavy: 400
+);
+
+
+//Just remaning for semantic use
+@function font($typeface-map, $key) {
+  @return map-get($typeface-map, $key);
+}
+
+//$sans: 'source sans pro', sans-serif;
+//$monospace: 'source code pro', monospace;
+//$serif: 'source serif pro';
 //$slab: "Museo Slab";
-$condensed:'Open Sans Condensed', sans-serif;
+//$condensed:'Open Sans Condensed', sans-serif;
 //$thick: "Quatro";
 //$serif: "learning-curve";
 
 // Weight(s) - Related to Source Sans Pro (Typekit)
-$hairline:200;
-$light: 300;
-$normal: 400;
-$bold: 700;
-$heavy:900;
+//$hairline:200;
+//$light: 300;
+//$normal: 400;
+//$bold: 700;
+//$heavy:900;
 
 // Base typography vars
 $line-height : 1.5;
 $base-font-size: 20px;
-$base-line-height: round($base-font-size * $line-height);
-//$base-line-position: $base-font-size;
-$base-line-color : magenta;
+$baseline-height: round($base-font-size * $line-height);
+//$baseline-position: $base-font-size;
+$baseline-color : rgba(magenta, 0.1);
 $max-width: 800px;
 
 // Snap to baseline mixin
 @mixin snap-to-baseline($aspect-ratio){
-  $width-per-base-line: $base-line-height * $aspect-ratio;
-  @for $i from 1 to round($max-width / $width-per-base-line) {
-    &[min-width~="#{round($width-per-base-line * $i )}"] {
-      height: round($base-line-height * $i );
+  $width-per-baseline: $baseline-height * $aspect-ratio;
+  @for $i from 1 to round($max-width / $width-per-baseline) {
+    &[min-width~="#{round($width-per-baseline * $i )}"] {
+      height: round($baseline-height * $i );
     }
   }
 }
@@ -37,10 +107,13 @@ $inside : padding;
 $outside : margin;
 $text : margin;
 
-@mixin spacing($space-type, $top:1, $bottom:1, $line-height-multiplier: 1) {
-  #{$space-type}-top: $base-line-height * $top;
-  #{$space-type}-bottom: $base-line-height * $bottom;
-  line-height: $line-height-multiplier * $base-line-height;
+@mixin spacing($space-type, $top:1, $bottom:1) {
+  #{$space-type}-top: $baseline-height * $top;
+  #{$space-type}-bottom: $baseline-height * $bottom;
+}
+
+@mixin line-height( $multiplier:1 ) {
+  line-height: $multiplier * $baseline-height;
 }
 
 html {
@@ -48,18 +121,19 @@ html {
 }
 
 body {
-  font-family: $sans;
+  font-family: font($slab, face);
+  font-weight: font($slab, light);
   line-height: $line-height;
   background-color:#fff;
-  background-image: linear-gradient(transparent, transparent $base-line-height - 1px, $base-line-color 1px);
-  background-size : auto $base-line-height;
+  background-image: linear-gradient(transparent, transparent $baseline-height - 1px, $baseline-color 1px);
+  background-size : auto $baseline-height;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  background-color: $mint;
-  font-weight: $normal;
+  background-color: rgba($mint, 1);
+  //font-weight: font($condensed, normal);
   font-size: 1rem;
-  line-height: 2 * $base-line-height;
+  //line-height: 2 * $baseline-height;
 }
 
 .mega-word {
@@ -69,10 +143,11 @@ h1, h2, h3, h4, h5, h6 {
   &__text {
     color: $white;
     background-color: $charcoal;
-    font-family: $condensed;
+    font-family: font($slab, face);
     font-size: 10rem;
-    font-weight: $heavy;
-    @include spacing($text, 0, 1, 8);
+    font-weight: font($slab, hairline);
+    @include spacing($text, 0, 1);
+    @include line-height(8);
     text-transform: uppercase;
     transition: all .5s ease-in-out;
 
@@ -96,10 +171,9 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-p {
+p, ul, ol, pre {
   @include spacing($outside, 0, 1);
 }
-
 
 
 /*
@@ -108,7 +182,7 @@ h3 {
   font-weight: 300;
   font-size: 2rem;
   text-transform:uppercase;
-  line-height: 2 * \$base-line-height;
+  line-height: 2 * \$baseline-height;
 }
 */
 
@@ -116,14 +190,31 @@ h3 {
   display:block;
   max-width:$max-width;
   margin:0 auto;
+
+  &__headline {
+    font-family: font($slab, face);
+    font-weight: font($slab, hairline);
+    //font-family: font($condensed, face);
+    font-size: 2.5rem;
+    //font-weight: font($serif, bold);
+    @include line-height(2);
+    @include spacing($text, 1, 1);
+  }
+
+  &__subhead {
+    background-color: $magenta;
+    font-family: font($serif, face);
+    font-size: 1rem;
+    font-weight: font($serif, bold);
+    @include line-height();
+    @include spacing($text, 0, 0);
+  }
 }
-
-
 
 .snap.one {
   overflow:hidden;
   //float:left;
-  margin: 0 $base-line-height $base-line-height 0;
+  margin: 0 $baseline-height $baseline-height 0;
   @include snap-to-baseline(16/9);
   width:100%;
 }
@@ -131,7 +222,7 @@ h3 {
 .snap.two {
   overflow:hidden;
   float:left;
-  // margin: 0 $base-line-height $base-line-height 0;
+  // margin: 0 $baseline-height $baseline-height 0;
   @include snap-to-baseline(9/9);
   width:50%;
 }
@@ -152,4 +243,9 @@ h3 {
 .copy,
 .snap {
   transition: all .5s ease-in-out;
+}
+
+
+input, textarea {
+  font-size: 1rem;
 }
